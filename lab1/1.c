@@ -70,7 +70,8 @@ int gcd_modulo(int m, int n) {
 }
 
 int gcd_rept_sub(int m, int n) {
-    if (m == 0 || n == 0) return 0;
+    if (m == 0 || n == 0) 
+        return 0;
 
     int count = 0;
     while (m != n) {

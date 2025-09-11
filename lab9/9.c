@@ -20,7 +20,6 @@ void heapify(int arr[], int i, int n)
         largest = left;
     if (right <= n && arr[right] > arr[largest])
         largest = right;
-
     if (largest != i)
     {
         swap(&arr[largest], &arr[i]);
