@@ -2,7 +2,7 @@
 #include <stdio.h>
 int value[100], weight[100];
 int knap[100][100];
-
+int count;
 int maximum(int a, int b)
 {
     int max = (a > b) ? a : b;
@@ -11,11 +11,15 @@ int maximum(int a, int b)
 
 int knapsac(int i, int j)
 {
-    if (knap[i][j] == -1)
+
+    if (knap[i][j] == -1){
+        count++;
         if (j < weight[i])
             knap[i][j] = knapsac(i - 1, j);
         else
             knap[i][j] = maximum(knapsac(i - 1, j), (value[i] + knapsac(i - 1, j - weight[i])));
+    }
+        
     return knap[i][j];
 }
 
@@ -75,7 +79,7 @@ int main()
         
     printf("\nThe optimum knapsac value is: %d\n", sol);
     composition(n, capacity);
-
+    printf("%d",count);
     return 0;
 }
 /* OUTPUT:-

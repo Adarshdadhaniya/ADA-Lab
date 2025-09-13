@@ -1,7 +1,7 @@
 // Knapsac problem bottom up
 #include <stdio.h>
 #include <stdlib.h>
-
+int count=0;
 int maximum(int a, int b)
 {
     int max = (a > b) ? a : b;
@@ -39,6 +39,7 @@ int knapsac(int wt, int weight[], int value[], int n)
     {
         for (j = 0; j <= wt; j++)
         {
+            count++;
             if (i == 0 || j == 0)
                 knap[i][j] = 0;
             else if (j < weight[i])
@@ -68,6 +69,7 @@ int main()
         scanf("%d%d", &weight[i], &value[i]);
     }
     knapsac(capacity, weight, value, n);
+    printf("%d",count);
     free(value);
     free(weight);
     return 0;
