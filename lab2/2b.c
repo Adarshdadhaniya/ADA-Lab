@@ -23,8 +23,8 @@ void main()
     int count = 0;
     int x, size = 1, key = 0;
 
-    FILE *fptr = fopen("binary.txt", "a");           // For step count
-    FILE *finput = fopen("binary_input.txt", "a");   // For array and key info
+    FILE *fptr = fopen("binary.txt", "w");           // For step count
+    FILE *finput = fopen("binary_input.txt", "w");   // For array and key info
 
     if (!fptr || !finput)
     {

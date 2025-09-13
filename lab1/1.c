@@ -100,7 +100,7 @@ int gcd_cons_intg(int m, int n) {
         min--;
     }
     return count;
-}
+} 
 
 // ----------- Prime Helpers ------------
 

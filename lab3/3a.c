@@ -31,7 +31,7 @@ void main()
     int size = 0;
     int *arr = NULL;
 
-    fp = fopen("sel.dat", "a");
+    fp = fopen("sel.dat", "w");
     if (!fp)
     {
         printf("Error opening file.\n");

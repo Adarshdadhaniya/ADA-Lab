@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAXN 100     // maximum n we’ll test
+#define MAXN 1     // maximum n we’ll test
 #define STEP 10      // step size for n
 
 static int graph[MAXN+1][MAXN+1];
@@ -57,7 +57,7 @@ void plotter(){
     for (int n = 1; n <= 10; n=n+1) {
         int best_ct, worst_ct;
 
-        // ——— BEST CASE: graph already fully transitively closed ———
+        // ——— WORST CASE: graph already fully transitively closed ———
         // Fill graph so every possible reachability is already present.
         // Easiest: complete graph (except self‑loops optional).
         for (int i = 1; i <= n; i++)
@@ -72,7 +72,7 @@ void plotter(){
         warshall(n);
         best_ct = ct;
 
-        // ——— WORST CASE: directed chain 1→2→3→…→n ———
+        // ——— BEST CASE: directed chain 1→2→3→…→n ———
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
                 graph[i][j] = 0; 
@@ -92,6 +92,6 @@ void plotter(){
 
 
 void main(void) {
-    tester();
+    // tester();
     plotter();
 }

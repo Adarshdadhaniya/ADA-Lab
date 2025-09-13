@@ -59,7 +59,7 @@ void main()
     }
 
     printf("Topological sorting\n");
-    for (int i = top; i >= 0; --i)
+    for (int i = top; i >= 0; i--)
         printf("%c ", stk[i] + 65);
     printf("\n");
     printf("the basic operation count for the given %d vertces matrix is %d\n",n,cnt);

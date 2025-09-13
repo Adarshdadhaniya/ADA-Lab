@@ -30,7 +30,7 @@ void main()
     int count = 0, *arr = NULL;
     int size = 0;
 
-    fp = fopen("bubble.dat", "a");
+    fp = fopen("bubble.dat", "w");
     if (!fp)
     {
         printf("Error opening file.\n");

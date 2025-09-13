@@ -37,7 +37,7 @@ void main()
     int count = 0, *arr = NULL;
     int size = 0;
 
-    fp = fopen("ins.dat", "a");
+    fp = fopen("ins.dat", "w");
     if (!fp)
     {
         printf("File open error.\n");

@@ -71,14 +71,15 @@ void bfs(int v)
     visited[v] = 1;
     while (!isEmpty())
     {
-        count++;
+        
         int ele = dequeue();
         printf("-->%c ", ele + 65);
         for (int i = 0; i < n; i++)
         {
+            count++;
             if (arr[ele][i])
             {
-               
+                
                 if (!visited[i])
                 {
                     enqueue(i);
@@ -139,7 +140,7 @@ void correctness()
 
 void main()
 {
-    FILE *fptr = fopen("bfs.dat", "a");
+    FILE *fptr = fopen("bfs.txt", "a");
     int i, j;
     n = 4;
     for (i = 0; i < n; i++)
@@ -179,7 +180,7 @@ void main()
 
         // worst case
         count = 0;
-        acyclic = 1;
+        acyclic = 1; 
         flag = 0;
         for (i = 0; i < n; i++)
         {

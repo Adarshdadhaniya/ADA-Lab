@@ -46,7 +46,7 @@ void topo(int n)
 
     for (int i = 0; i < n; i++)
     {
-        in[i] = inDegree(i, n);
+        in[i] = inDegree(i, n); 
         
         if (in[i] == 0){
             enqueue(i);

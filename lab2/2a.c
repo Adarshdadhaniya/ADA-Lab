@@ -14,8 +14,8 @@ int linearSearch(int* arr, int key, int len){
 void main(){
     srand(time(NULL));
     int x, size = 1;
-    FILE* fptr = fopen("linear.txt", "a");          // Performance file
-    FILE* farr = fopen("linear_input.txt", "a");    // Array + key log file
+    FILE* fptr = fopen("linear.txt", "w");          // Performance file
+    FILE* farr = fopen("linear_input.txt", "w");    // Array + key log file
 
     if (!fptr || !farr) {
         printf("Error opening files.\n");

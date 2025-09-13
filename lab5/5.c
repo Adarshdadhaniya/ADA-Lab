@@ -1,45 +1,53 @@
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
 int count = 0;
 
-// Generate worst-case input for merge sort
-void genWorst(int arr[], int l, int r) {
-    if (r - l + 1 <= 1)
+// Generates worst-case for merge sort by interleaving elements
+void genWorst(int arr[], int n)    //here n is the size
+{
+    if (n <= 1)
         return;
 
-    int n = r - l + 1;
-    int mid = (n + 1) / 2;
-
-    int left[mid], right[n - mid];
-    int li = 0, ri = 0;
-
-    for (int i = 0; i < n; i++) {
-        if (i % 2 == 0)
-            left[li++] = arr[l + i];
-        else
-            right[ri++] = arr[l + i];
+    int mid = n / 2;
+    int *left = (int *)malloc((n-mid) * sizeof(int));
+    int *right = (int *)malloc((mid) * sizeof(int));
+    int j=0,k=0,l=0;
+    // Pick alternate elements for left and right
+    for (int i = 0; i < n; i++){
+    if(i%2==0)
+        left[j++] = arr[i];
+    else
+        right[k++] = arr[i];
     }
+    genWorst(left, n-mid);
+    genWorst(right, mid);
 
-    genWorst(left, 0, li - 1);
-    genWorst(right, 0, ri - 1);
+    // Combine left and right back into arr
+    for (int i = 0; i <n- mid; i++)
+      arr[l++] = left[i];
+    for (int i = 0; i < mid; i++)
+        arr[l++] = right[i];
 
-    for (int i = 0; i < li; i++)
-        arr[l + i] = left[i];
-    for (int i = 0; i < ri; i++)
-        arr[l + li + i] = right[i];
+    free(left);
+    free(right);
 }
 
-// Merge function with comparison count
-void merge(int a[], int b[], int c[], int blen, int clen) {
+void merge(int a[], int b[], int c[], int blen, int clen)
+{
     int i = 0, j = 0, k = 0;
-    while (i < blen && j < clen) {
+    while (i < blen && j < clen)
+    {
         count++;
         if (b[i] <= c[j])
             a[k++] = b[i++];
         else
             a[k++] = c[j++];
+        
     }
     while (i < blen)
         a[k++] = b[i++];
@@ -47,76 +55,77 @@ void merge(int a[], int b[], int c[], int blen, int clen) {
         a[k++] = c[j++];
 }
 
-// Merge sort implementation
-void mergeSort(int A[], int n) {
-    if (n < 2)
+void mergeSort(int A[], int n)
+{
+    if (n <= 1)
         return;
 
-    int B[n / 2], C[n-n / 2];
-    int k = 0, i = 0;
+    int mid = n / 2;
+    int *B = (int *)malloc(mid * sizeof(int));
+    int *C = (int *)malloc((n - mid) * sizeof(int));
+    int i=0;
+    for (int j = 0; j < mid; j++)
+        B[j] = A[i++];
+    for (int j = 0; j < n-mid; j++)
+        C[j] = A[i++];
 
-    for (i = 0; i < n / 2; i++)
-        B[i] = A[i];
-    int blen = i;
+    mergeSort(B, mid);
+    mergeSort(C, n - mid);
+    merge(A, B, C, mid, n - mid);
 
-    while (i < n)
-        C[k++] = A[i++];
-    int clen = k;
-
-    mergeSort(B, blen);
-    mergeSort(C, clen);
-    merge(A, B, C, blen, clen);
+    free(B);
+    free(C);
 }
 
-int main() {
+int main()
+{
     int *arr = NULL;
-    FILE *fp = fopen("merge2.dat", "a");
-    FILE *arrFile = fopen("merge_arrays.txt", "a");
-
     srand(time(NULL));
+    FILE *fp = fopen("merge.txt", "w");
+    FILE *arrFile = fopen("merge_arrays.txt", "w");
 
-    for (int n = 4; n <= 1024; n *= 2) {
-        arr = (int *)malloc(sizeof(int) * (n ));
+    if (fp == NULL)
+    {
+        printf("File open error!\n");
+        return 1;
+    }
+    for (int n = 2; n <= 1024; n *= 2)
+    {
+        arr = (int *)malloc(sizeof(int) * n);
 
-        // -------- BEST CASE --------
+        // best
         count = 0;
-        for (int i = 0; i <= n; i++)
+        for (int i = 0; i < n; i++)
             arr[i] = i;
-
         fprintf(arrFile, "BEST CASE - Size: %d\nInput: ", n+1);
-        for (int i = 0; i <= n; i++)
+        for (int i = 0; i < n; i++)
             fprintf(arrFile, "%d ", arr[i]);
-
-        mergeSort(arr, n+1);
-
-        fprintf(arrFile, "\nSorted: ");
-        for (int i = 0; i <= n; i++)
+        fprintf(arrFile,"\n");
+        mergeSort(arr, n);
+        fprintf(arrFile, "BEST CASE - Size: %d\nOutput: ", n+1);
+        for (int i = 0; i < n; i++)
             fprintf(arrFile, "%d ", arr[i]);
-        fprintf(arrFile, "\n\n");
-
+        fprintf(arrFile,"\n");
         fprintf(fp, "%d\t%d\t", n, count);
 
-        // -------- WORST CASE --------
+        // worst
         count = 0;
-        genWorst(arr, 0, n );
-
-        fprintf(arrFile, "WORST CASE - Size: %d\nInput: ", n);
-        for (int i = 0; i <= n; i++)
+        for (int i = 0; i < n; i++)
+            arr[i] = i;
+        genWorst(arr, n);// Pass size, not indices
+        fprintf(arrFile, "Worst CASE - Size: %d\nInput: ", n+1);
+        for (int i = 0; i < n; i++)
             fprintf(arrFile, "%d ", arr[i]);
-
-        mergeSort(arr, n+1);
-
-        fprintf(arrFile, "\nSorted: ");
-        for (int i = 0; i <= n; i++)
+        fprintf(arrFile,"\n"); 
+        mergeSort(arr, n);
+        fprintf(arrFile, "Worst CASE - Size: %d\nOutput: ", n+1);
+        for (int i = 0; i < n; i++)
             fprintf(arrFile, "%d ", arr[i]);
-        fprintf(arrFile, "\n\n");
-
+        fprintf(arrFile,"\n");
         fprintf(fp, "%d\n", count);
 
         free(arr);
     }
-
     fclose(fp);
-    fclose(arrFile);
     return 0;
 }

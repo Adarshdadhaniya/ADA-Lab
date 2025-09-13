@@ -21,7 +21,7 @@ int strMatch(char str[], char pattern[], int m, int n)
 
 void main()
 {
-    FILE *fp = fopen("str.dat", "a");
+    FILE *fp = fopen("str.txt", "w");
     if (!fp)
     {
         printf("Error opening file.\n");
@@ -51,7 +51,13 @@ void main()
         // Worst Case: last character doesn't match
         pattern[i - 1] = 'b';
         int worst = strMatch(str, pattern, m, i);
-        fprintf(fp, "%d\n", worst);
+        fprintf(fp, "%d\t", worst);
+        for(int j=0;j<i;j++)
+            pattern[j] = (char)(97 + rand() % 2);
+        
+        int avg=strMatch(str, pattern, m, i);
+        fprintf(fp, "%d\n", avg);
+
     }
 
     fclose(fp);
